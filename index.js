@@ -5,6 +5,7 @@ const cors = require("cors");
 const dbConnection = require("./db/dbconnection");
 const Contact = require("./model/contact");
 const config = require("./config/config");
+const authRouter = require("./src/auth/auth.router");
 dbConnection();
 
 if (config.mode === "development") {
@@ -80,6 +81,8 @@ app.patch("/api/contacts/:contactId", (req, res) => {
     })
     .catch(error => res.status(404).json({ error: error }));
 });
+
+app.use("/auth", authRouter);
 
 app.use("*", (req, res) => {
   res.status(404).json({
